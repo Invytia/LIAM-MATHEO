@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Celebración - Liam Matheo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Pinyon+Script&family=Montserrat:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta Mágica: Beige y Azul Clarito */
+            --bg-beige: #F9F6F0;       
+            --blue-light: #E0EBF5;    
+            --blue-accent: #A9C2D9;   
+            --gold-magic: #D4AF37; 
+            --text-dark: #2C3E50;      
+            --text-muted: #5D6D7E;
+            
+            --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-beige);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- EFECTOS MÁGICOS Y DESTELLOS --- */
+        .sparkle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8), 0 0 20px 5px var(--blue-accent);
+            animation: twinkle 3s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .s1 { top: 10%; left: 20%; animation-delay: 0s; }
+        .s2 { top: 30%; right: 15%; animation-delay: 0.5s; }
+        .s3 { bottom: 20%; left: 10%; animation-delay: 1s; }
+        .s4 { bottom: 15%; right: 25%; animation-delay: 1.5s; }
+        .s5 { top: 50%; left: 50%; animation-delay: 2s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- REPRODUCTOR DE MÚSICA --- */
+        .sticky-music-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--gold-magic);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            z-index: 2000;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.6s var(--transition-smooth);
+            border: none;
+            outline: none;
+        }
+
+        body.content-active .sticky-music-btn {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .sticky-music-btn:hover {
+            transform: scale(1.1);
+            background-color: #C19B2E;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
+        }
+
+        .sticky-music-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+        /* --- SOBRE MÁGICO --- */
+        #envelope-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('assets/f.jpg') center center/cover no-repeat;
+            background-color: var(--bg-beige); 
+            z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1.2s ease-in-out, visibility 1.2s;
+        }
+
+        /* Overlay oscuro sutil para que el sobre resalte sobre f.jpg */
+        #envelope-screen::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(249, 246, 240, 0.6); z-index: 1;
+        }
+
+        #envelope-screen.fade-out {
+            opacity: 0; visibility: hidden; pointer-events: none;
+        }
+
+        .envelope-text-container {
+            text-align: center; margin-bottom: 50px;
+            animation: float 4s ease-in-out infinite;
+            position: relative;
+            z-index: 10;
+        }
+
+        .env-tag {
+            font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 8px;
+            text-transform: uppercase; color: var(--text-dark); font-weight: 600;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+
+        .env-title {
+            font-family: 'Pinyon Script', cursive; font-size: 75px;
+            color: var(--gold-magic); line-height: 1.2; margin-top: 5px;
+            text-shadow: 0 2px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .envelope-wrapper {
+            position: relative; cursor: pointer; transition: transform 0.6s var(--transition-smooth);
+            z-index: 10;
+        }
+        
+        .envelope-wrapper:hover { transform: translateY(-8px); }
+
+        /* Sobre Blanco */
+        .envelope {
+            position: relative; width: 320px; height: 210px;
+            background-color: #FFFFFF; border-radius: 2px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .envelope::before {
+            content: ''; position: absolute; top: 0; right: 0;
+            border-right: 160px solid #F5F7FA; border-top: 105px solid transparent;
+            border-bottom: 105px solid #F5F7FA; z-index: 2;
+        }
+        
+        .envelope::after {
+            content: ''; position: absolute; top: 0; left: 0;
+            border-left: 160px solid #FAFCFF; border-top: 105px solid transparent;
+            border-bottom: 105px solid #FAFCFF; z-index: 2;
+        }
+
+        .front-flap {
+            position: absolute; top: 0; left: 0;
+            border-left: 160px solid transparent; border-right: 160px solid transparent;
+            border-top: 115px solid #EAECEF; transform-origin: top;
+            transition: transform 0.9s var(--transition-smooth); z-index: 4;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+        }
+
+        .envelope-wrapper.open .front-flap { transform: rotateX(180deg); z-index: 1; }
+
+        .wax-seal {
+            position: absolute; top: 90px; left: 50%; transform: translateX(-50%);
+            width: 45px; height: 45px; background-color: var(--gold-magic);
+            border-radius: 50%; z-index: 5; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); 
+            transition: opacity 0.5s ease 0.1s, transform 0.5s ease;
+        }
+        
+        .wax-seal svg { width: 22px; height: 22px; fill: #fff; }
+        .envelope-wrapper.open .wax-seal { opacity: 0; transform: translateX(-50%) scale(0.5); pointer-events: none; }
+
+        .hint-text {
+            text-align: center; font-size: 11px; font-weight: 600; text-transform: uppercase; 
+            letter-spacing: 4px; color: var(--text-dark); margin-top: 40px; 
+            animation: pulse 2.5s infinite;
+            text-shadow: 0 0 8px rgba(255,255,255,0.8);
+        }
+
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+        /* --- CONTENIDO PRINCIPAL Y ANIMACIONES --- */
+        #main-invitation {
+            display: none; width: 100%; flex-direction: column; align-items: center;
+            opacity: 0; animation: fadeInMain 2s forwards 0.3s;
+        }
+        
+        body.content-active #main-invitation { display: flex; }
+
+        @keyframes fadeInMain { to { opacity: 1; } }
+
+        /* Clases de Animación */
+        .anim-element { opacity: 0; transition: all 1.2s var(--transition-smooth); position: relative; z-index: 2; }
+        
+        .anim-fade-up { transform: translateY(40px); }
+        .anim-fade-up.in-view { opacity: 1; transform: translateY(0); }
+        
+        .anim-zoom { transform: scale(0.92); }
+        .anim-zoom.in-view { opacity: 1; transform: scale(1); }
+        
+        .anim-glow { filter: drop-shadow(0 0 0px transparent); }
+        .anim-glow.in-view { filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); opacity: 1; transform: scale(1); }
+
+        /* Delays */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.25s; }
+        .delay-3 { transition-delay: 0.4s; }
+        .delay-4 { transition-delay: 0.55s; }
+
+        /* Estructura de Secciones */
+        .section-block {
+            width: 100%; padding: 110px 20px; display: flex; flex-direction: column; align-items: center; text-align: center;
+            position: relative; overflow: hidden;
+        }
+
+        .bg-beige { background-color: var(--bg-beige); }
+        .bg-blue { background-color: var(--blue-light); }
+
+        /* Tipografía y Textos */
+        .tag-line {
+            font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 5px;
+            text-transform: uppercase; color: var(--gold-magic); margin-bottom: 25px; font-weight: 600;
+        }
+
+        .title-script {
+            font-family: 'Pinyon Script', cursive; font-size: 80px;
+            color: var(--text-dark); margin-bottom: 20px; line-height: 1.1; font-weight: 400;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .body-serif {
+            font-family: 'Cormorant Garamond', serif; font-size: 23px;
+            line-height: 1.6; color: var(--text-muted); font-style: italic;
+            max-width: 600px; padding: 0 15px; font-weight: 400;
+        }
+
+        .line-divider { width: 1px; height: 60px; background: linear-gradient(to bottom, transparent, var(--gold-magic), transparent); margin: 35px auto; }
+        .line-horizontal { width: 60px; height: 1px; background: linear-gradient(to right, transparent, var(--gold-magic), transparent); margin: 40px auto; }
+
+        .photo-frame {
+            width: 100%; max-width: 420px; margin: 40px auto;
+            box-shadow: 0 20px 50px rgba(169, 194, 217, 0.4); border-radius: 8px;
+            overflow: hidden; border: 4px solid #FFFFFF; position: relative; z-index: 2;
+        }
+        .photo-frame img { width: 100%; display: block; filter: contrast(1.05); transition: transform 0.6s ease; }
+        .photo-frame:hover img { transform: scale(1.03); }
+
+        .info-title {
+            font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 3px; line-height: 1.4;
+            text-transform: uppercase; color: var(--gold-magic); margin-bottom: 12px; font-weight: 600;
+        }
+
+        .info-data {
+            font-family: 'Cormorant Garamond', serif; font-size: 32px;
+            color: var(--text-dark); margin-bottom: 5px; font-weight: 500; line-height: 1.3;
+        }
+
+        /* Botones */
+        .btn-solid {
+            display: inline-block; background-color: var(--gold-magic); color: #fff;
+            padding: 17px 35px; font-family: 'Montserrat', sans-serif; font-size: 12px;
+            font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+            text-decoration: none; border: none; cursor: pointer; border-radius: 30px;
+            transition: all 0.4s ease; margin-top: 30px; position: relative; z-index: 5;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .btn-solid:hover { background-color: #B8962D; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.5); }
+
+        /* Cuenta Regresiva Mágica */
+        .countdown-container {
+            display: flex; justify-content: center; gap: 15px; margin: 40px auto; flex-wrap: wrap;
+        }
+        .time-box {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--blue-accent);
+            border-radius: 10px;
+            width: 70px; height: 80px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            box-shadow: 0 10px 20px rgba(169, 194, 217, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        .time-num { font-family: 'Cinzel', serif; font-size: 28px; color: var(--gold-magic); font-weight: 600; }
+        .time-text { font-family: 'Montserrat', sans-serif; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+
+        /* Mapas */
+        .map-box {
+            width: 100%; max-width: 550px; height: 320px; margin: 30px auto;
+            overflow: hidden; border-radius: 8px; box-shadow: 0 15px 40px rgba(169, 194, 217, 0.4); position: relative; z-index: 2;
+            border: 3px solid #fff;
+        }
+        
+        .map-box iframe { width: 100%; height: 100%; border: none; filter: contrast(1.05); }
+
+        /* Formularios RSVP */
+        .form-group { width: 100%; max-width: 400px; margin: 0 auto 20px auto; position: relative; z-index: 2; }
+        
+        .input-line {
+            width: 100%; padding: 18px 0; background: transparent; border: none;
+            border-bottom: 2px solid rgba(169, 194, 217, 0.5); color: var(--text-dark);
+            font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 500; outline: none;
+            text-align: center; transition: border-color 0.4s;
+        }
+        .input-line:focus { border-bottom-color: var(--gold-magic); }
+        .input-line::placeholder { color: #A0A0A0; font-style: normal; font-weight: 400; }
+        .input-line:disabled { color: var(--text-dark); background-color: rgba(255,255,255,0.5); cursor: not-allowed; border-radius: 5px; }
+        
+        textarea.input-line { resize: vertical; min-height: 90px; }
+        select.input-line { appearance: none; text-align-last: center; cursor: pointer; }
+
+        /* Boleto Pase VIP Invytia */
+        .ticket-card {
+            width: 100%; max-width: 380px; margin: 30px auto; background: linear-gradient(135deg, #ffffff, #F0F5FA);
+            padding: 50px 25px; position: relative; text-align: center;
+            border-radius: 12px; box-shadow: 0 20px 50px rgba(169, 194, 217, 0.3);
+            border: 1px solid var(--blue-accent); z-index: 2;
+        }
+
+        .ticket-card::before, .ticket-card::after {
+            content: ''; position: absolute; top: 60%; transform: translateY(-50%);
+            width: 30px; height: 30px; background-color: var(--bg-beige); border-radius: 50%;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+        }
+        .ticket-card::before { left: -16px; }
+        .ticket-card::after { right: -16px; }
+
+        /* Responsive Móvil */
+        @media (max-width: 400px) {
+            .env-title { font-size: 60px; }
+            .title-script { font-size: 60px; }
+            .section-block { padding: 80px 15px; }
+            .info-data { font-size: 28px; }
+            .map-box { height: 260px; }
+            .envelope { width: 300px; height: 195px; }
+            .envelope::before, .envelope::after { border-left-width: 150px; border-right-width: 150px; border-top-width: 97px; border-bottom-width: 97px; }
+            .front-flap { border-left-width: 150px; border-right-width: 150px; border-top-width: 105px; }
+            .time-box { width: 60px; height: 70px; }
+            .time-num { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- AUDIO OCULTO -->
+    <audio id="bg-music" src="assets/song.mp3" loop></audio>
+
+    <!-- BOTÓN STICKY DE MÚSICA -->
+    <button id="music-btn" class="sticky-music-btn" onclick="toggleMusic()" aria-label="Controlar música">
+        <svg id="music-icon-play" style="display:none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="music-icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+
+    <!-- PANTALLA INICIAL DEL SOBRE -->
+    <div id="envelope-screen">
+        <div class="envelope-text-container">
+            <div class="env-tag">Celebración Especial</div>
+            <h1 class="env-title">Liam Matheo</h1>
+        </div>
+
+        <div class="envelope-wrapper" onclick="openEnvelope()">
+            <div class="front-flap"></div>
+            <div class="wax-seal">
+                <svg viewBox="0 0 24 24"><path d="M12 2L15 9H22L16.5 13.5L18.5 21L12 17L5.5 21L7.5 13.5L2 9H9L12 2Z"/></svg>
+            </div>
+            <div class="envelope"></div>
+        </div>
+        
+        <div class="hint-text" style="position: relative; z-index: 10;">Tocar para abrir</div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main id="main-invitation">
+        
+        <!-- Portada -->
+        <section class="section-block bg-beige">
+            <!-- Destellos Mágicos -->
+            <div class="sparkle s1"></div><div class="sparkle s2"></div>
+            <div class="sparkle s3"></div><div class="sparkle s4"></div>
+
+            <div class="anim-element anim-fade-up delay-1 tag-line">Nuestra Celebración</div>
+            <h1 class="anim-element anim-glow delay-2 title-script">Liam Matheo</h1>
+            <div class="anim-element anim-fade-up delay-3 line-divider"></div>
+            <p class="anim-element anim-fade-up delay-4 body-serif">
+                "Gracias de corazón por compartir nuestra alegría en este día tan especial para la vida de nuestro hijo".
+            </p>
+
+            <!-- Foto Portada (opcional) -->
+            <div class="anim-element anim-fade-up delay-4 photo-frame">
+                <img src="assets/foto1.jpg" alt="Liam Matheo" onerror="this.style.display='none'">
+            </div>
+        </section>
+
+        <!-- Cuenta Regresiva y Fecha -->
+        <section class="section-block bg-blue">
+            <div class="sparkle s5"></div><div class="sparkle s1"></div>
+
+            <div class="anim-element anim-fade-up delay-1 info-title" style="letter-spacing: 2px;">El gran día será el</div>
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 40px; font-weight: 600;">20 de Diciembre</div>
+            <div class="anim-element anim-fade-up delay-3 info-data" style="font-size: 24px; color: var(--gold-magic); letter-spacing: 2px;">2026</div>
+
+            <div class="anim-element anim-zoom delay-4 countdown-container" id="countdown">
+                <div class="time-box">
+                    <div class="time-num" id="cd-days">00</div>
+                    <div class="time-text">Días</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-num" id="cd-hours">00</div>
+                    <div class="time-text">Hrs</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-num" id="cd-mins">00</div>
+                    <div class="time-text">Min</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-num" id="cd-secs">00</div>
+                    <div class="time-text">Seg</div>
+                </div>
+            </div>
+
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Celebraci%C3%B3n+de+Liam+Matheo&dates=20261220T180000Z/20261221T020000Z&details=Acompa%C3%B1anos+a+celebrar+este+gran+d%C3%ADa" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Agendar en Calendario</a>
+        </section>
+
+        <!-- Familia -->
+        <section class="section-block bg-beige">
+            <div class="sparkle s2"></div><div class="sparkle s4"></div>
+
+            <div class="anim-element anim-fade-up delay-1 info-title">Con el amor de sus padres</div>
+            <div class="anim-element anim-fade-up delay-2 info-data">J. Guadalupe Reyes Paez</div>
+            <div class="anim-element anim-fade-up delay-3" style="font-family: 'Cinzel', serif; font-size: 20px; color: var(--gold-magic); margin: 10px 0;">&</div>
+            <div class="anim-element anim-fade-up delay-3 info-data">Jose Luis Perez Nequiz</div>
+            
+            <div class="anim-element anim-zoom delay-4 line-horizontal"></div>
+            
+            <div class="anim-element anim-fade-up delay-4 info-title">Y su Padrino</div>
+            <div class="anim-element anim-fade-up delay-4 info-data" style="font-size: 28px;">Yair Uriel Pérez Ballesteros</div>
+
+            <!-- Foto Familia (opcional) -->
+            <div class="anim-element anim-fade-up delay-4 photo-frame" style="margin-top: 50px;">
+                <img src="assets/foto2.jpg" alt="Familia" onerror="this.style.display='none'">
+            </div>
+        </section>
+
+        <!-- Ubicaciones -->
+        <section class="section-block bg-blue">
+            <div class="sparkle s3"></div><div class="sparkle s1"></div>
+
+            <div class="anim-element anim-fade-up delay-1 info-title">Ceremonia Religiosa</div>
+            <div class="anim-element anim-fade-up delay-2 info-data">Parroquia San Judas Tadeo</div>
+            <div class="anim-element anim-fade-up delay-3 tag-line" style="font-size: 16px; margin: 15px 0; color: var(--text-muted);">12:00 P.M.</div>
+            
+            <div class="anim-element anim-zoom delay-4 map-box">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.296296750255!2d-98.963994!3d19.442788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1e47f450861cf%3A0xcc777d88ab835efe!2sParroquia%20de%20San%20Judas%20Tadeo!5e0!3m2!1ses-419!2smx!4v1790912027572!5m2!1ses-419!2smx" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/uTMDTj7VTJUJS71s6" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Ir al mapa</a>
+
+            <div class="anim-element anim-zoom line-horizontal" style="margin: 60px auto;"></div>
+
+            <div class="anim-element anim-fade-up delay-1 info-title">Recepción</div>
+            <div class="anim-element anim-fade-up delay-2 info-data">Salon Diann</div>
+            <div class="anim-element anim-fade-up delay-3 tag-line" style="font-size: 16px; margin: 15px 0; color: var(--text-muted);">3:30 P.M.</div>
+            
+            <div class="anim-element anim-zoom delay-4 map-box">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.287729625093!2d-98.9529474!3d19.443157599999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1e4760f98e213%3A0xd7c1ca74f761d7fb!2sSalon%20Diann!5e0!3m2!1ses-419!2smx!4v1790912067672!5m2!1ses-419!2smx" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/pcuPDYa3TQEiD3RJ6" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Ir al mapa</a>
+        </section>
+
+        <!-- Dress Code -->
+        <section class="section-block bg-beige">
+            <div class="anim-element anim-fade-up delay-1 info-title">Dress Code</div>
+            <div class="anim-element anim-glow delay-2 info-data" style="font-family: 'Cinzel', serif; font-size: 35px; margin: 20px 0; letter-spacing: 5px; color: var(--gold-magic);">
+                LIBRE
+            </div>
+            <div class="anim-element anim-fade-up delay-3 line-divider"></div>
+            <p class="anim-element anim-fade-up delay-4 body-serif" style="font-size: 21px;">
+                Queremos que te sientas cómodo para disfrutar y celebrar con nosotros al máximo. ¡Ven con tu mejor estilo y prepárate para crear recuerdos inolvidables!
+            </p>
+        </section>
+
+        <!-- Galería en Vivo -->
+        <section class="section-block bg-blue">
+            <div class="anim-element anim-fade-up delay-1 info-title">Momentos Mágicos</div>
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 34px;">Galería en Vivo</div>
+            <p class="anim-element anim-fade-up delay-3 body-serif" style="margin: 25px auto; font-size: 20px;">
+                Ayúdanos a capturar la magia de este día. Comparte todas las fotos y videos que tomes directamente en nuestro álbum digital.<br><br>
+            </p>
+            <a href="https://drive.google.com/drive/folders/1C3Fc-pKi01wJ239iWBdb_xsUTLcXYqxP?usp=sharing" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Subir mis Fotos</a>
+        </section>
+
+        <!-- RSVP y Pases Sistema Invytia -->
+        <section class="section-block bg-beige">
+            
+            <!-- Tarjeta VIP Dinámica Invytia -->
+            <div id="pases-section" style="display: none; width: 100%;">
+                <div class="anim-element anim-fade-up delay-1 info-title">Acceso al Evento</div>
+                <div class="anim-element anim-zoom delay-2 ticket-card">
+                    <div class="tag-line" style="margin-bottom: 20px;">Boleto Especial</div>
+                    
+                    <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold-magic); font-style: italic; margin-bottom: 15px; font-weight: 600; line-height: 1.2;">
+                        Invitado Especial
+                    </div>
+
+                    <div class="body-serif" style="font-size: 19px; margin-bottom: 15px;">Pases Asignados</div>
+                    <div id="ticket-count" style="font-family: 'Cinzel', serif; font-size: 60px; font-weight: 600; color: var(--text-dark); line-height: 1; text-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        0
+                    </div>
+                    <div style="font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-top: 35px;">
+                        Muestra esta pantalla al llegar
+                    </div>
+                </div>
+                <div class="anim-element anim-fade-up line-horizontal" style="margin: 60px auto;"></div>
+            </div>
+
+            <!-- Formulario RSVP -->
+            <div class="anim-element anim-fade-up delay-1 info-title">RSVP</div>
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 34px;">Confirmar Asistencia</div>
+            <p class="anim-element anim-fade-up delay-3 body-serif" style="margin: 15px auto 35px auto; font-size: 20px;">
+                Agradeceremos tu confirmación para contemplarte en este día tan mágico.
+            </p>
+            
+            <div class="anim-element anim-fade-up delay-4 form-group">
+                <input type="text" id="rsvp-name" class="input-line" placeholder="Escribe tu nombre y apellido">
+            </div>
+            <div class="anim-element anim-fade-up delay-4 form-group">
+                <select id="rsvp-status" class="input-line">
+                    <option value="" disabled selected>¿Nos acompañarás?</option>
+                    <option value="yes">Con gusto asistiré</option>
+                    <option value="no">No me será posible asistir</option>
+                </select>
+            </div>
+            
+            <!-- Campo dinámico de cantidad de pases -->
+            <div class="anim-element anim-fade-up delay-4 form-group">
+                <select id="rsvp-guests" class="input-line" style="display: none;">
+                    <option value="" disabled selected>¿Cuántas personas asisten?</option>
+                    <!-- Las opciones se generan con JS -->
+                </select>
+            </div>
+            
+            <button onclick="sendRSVP()" class="anim-element anim-fade-up delay-4 btn-solid" style="margin-bottom: 70px;">Confirmar por WhatsApp</button>
+
+            <div class="anim-element anim-zoom line-divider"></div>
+
+            <!-- Muro de Deseos -->
+            <div class="anim-element anim-fade-up delay-1 info-title">Mensajes</div>
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 34px;">Muro de los Deseos</div>
+            <div class="anim-element anim-fade-up delay-3 form-group" style="margin-top: 30px;">
+                <input type="text" id="wish-name" class="input-line" placeholder="De parte de...">
+            </div>
+            <div class="anim-element anim-fade-up delay-4 form-group">
+                <textarea id="wish-message" class="input-line" placeholder="Deja un lindo mensaje para Liam Matheo..."></textarea>
+            </div>
+            <button onclick="sendWish()" class="anim-element anim-fade-up delay-4 btn-solid" style="margin-bottom: 30px;">Enviar Mensaje</button>
+            
+        </section>
+
+    </main>
+
+    <script>
+        // --- CONTROL DE AUDIO ---
+        let isMusicPlaying = false;
+        const bgMusic = document.getElementById('bg-music');
+        const playIcon = document.getElementById('music-icon-play');
+        const pauseIcon = document.getElementById('music-icon-pause');
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            } else {
+                bgMusic.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        // --- ANIMACIÓN INICIAL DEL SOBRE ---
+        function openEnvelope() {
+            const wrapper = document.querySelector('.envelope-wrapper');
+            const screen = document.getElementById('envelope-screen');
+            wrapper.classList.add('open');
+            
+            setTimeout(() => {
+                screen.classList.add('fade-out');
+                document.body.classList.add('content-active');
+                
+                bgMusic.play().then(() => {
+                    isMusicPlaying = true;
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                }).catch(e => {
+                    console.log("El navegador bloqueó el autoplay de audio.");
+                    isMusicPlaying = false;
+                    playIcon.style.display = 'block';
+                    pauseIcon.style.display = 'none';
+                });
+            }, 1000);
+        }
+
+        // --- INTERSECTION OBSERVER (Animaciones On-Scroll) ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.anim-element').forEach(el => observer.observe(el));
+        });
+
+        // --- CUENTA REGRESIVA ---
+        const eventDate = new Date("2026-12-20T12:00:00").getTime();
+        
+        const countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "<div class='time-num'>¡Ha llegado el gran día!</div>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("cd-days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("cd-hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("cd-mins").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("cd-secs").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }, 1000);
+
+        // --- LÓGICA DEL SISTEMA DE PASES (INVYTIA) ---
+        let pasesAsignados = 0;
+        const urlParams = new URLSearchParams(window.location.search);
+        let parametroPases = urlParams.get('p') || urlParams.get('pases');
+
+        if (parametroPases && !isNaN(parametroPases)) {
+            pasesAsignados = parseInt(parametroPases);
+        }
+
+        // Mostrar boleto VIP si hay pases configurados en la URL
+        if (pasesAsignados > 0) {
+            const pasesSection = document.getElementById('pases-section');
+            if (pasesSection) {
+                pasesSection.style.display = 'block';
+                document.getElementById('ticket-count').innerText = pasesAsignados;
+            }
+        } else {
+            // Valor por defecto en caso de no venir por URL para que el form funcione
+            pasesAsignados = 10;
+        }
+
+        // Lógica del Formulario RSVP
+        const rsvpStatus = document.getElementById("rsvp-status");
+        const rsvpGuests = document.getElementById("rsvp-guests");
+
+        rsvpStatus.addEventListener('change', (e) => {
+            if(e.target.value === 'yes') {
+                rsvpGuests.style.display = 'block';
+                rsvpGuests.innerHTML = '<option value="" disabled selected>¿Cuántas personas asisten?</option>';
+                for(let i = 1; i <= pasesAsignados; i++) {
+                    rsvpGuests.innerHTML += `<option value="${i}">${i} persona${i > 1 ? 's' : ''}</option>`;
+                }
+            } else {
+                rsvpGuests.style.display = 'none';
+                rsvpGuests.value = ""; 
+            }
+        });
+
+        // --- NÚMERO DE WHATSAPP ---
+        const WA_PHONE_NUMBER = "525575339340";
+
+        // --- ENVÍO DE ASISTENCIA ---
+        function sendRSVP() {
+            const name = document.getElementById("rsvp-name").value.trim();
+            const status = document.getElementById("rsvp-status").value;
+            const guests = document.getElementById("rsvp-guests").value;
+            
+            if (name === "" || status === "") {
+                alert("Por favor, ingresa tu nombre y selecciona una opción.");
+                return;
+            }
+
+            if (status === "yes" && guests === "") {
+                alert("Por favor, indica cuántas personas asistirán.");
+                return;
+            }
+
+            let message = "";
+            if (status === "yes") {
+                message = encodeURIComponent(`¡Hola! Soy ${name}. Confirmo con muchísima alegría mi asistencia a la celebración de Liam Matheo. Seremos ${guests} persona(s) en total. ¡Ahí nos vemos!`);
+            } else {
+                message = encodeURIComponent(`¡Hola! Soy ${name}. Lamentablemente no me será posible asistir a la celebración de Liam Matheo. Agradezco de corazón la invitación y les deseo un día mágico.`);
+            }
+            window.open(`https://wa.me/${WA_PHONE_NUMBER}?text=${message}`, '_blank');
+        }
+
+        // --- ENVÍO DE MENSAJE DE DESEOS ---
+        function sendWish() {
+            const name = document.getElementById("wish-name").value.trim();
+            const wish = document.getElementById("wish-message").value.trim();
+            
+            if (name === "" || wish === "") {
+                alert("Por favor, ingresa tu nombre y tu mensaje.");
+                return;
+            }
+            const message = encodeURIComponent(`Hola papás de Liam Matheo, soy ${name}. Les envío este mensaje con mucho cariño en su día especial:\n\n"${wish}"`);
+            window.open(`https://wa.me/${WA_PHONE_NUMBER}?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
