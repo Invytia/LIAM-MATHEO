@@ -277,7 +277,7 @@
         .body-serif {
             font-family: 'Cormorant Garamond', serif; font-size: 23px;
             line-height: 1.6; color: var(--text-muted); font-style: italic;
-            max-width: 600px; padding: 0 15px; font-weight: 600; /* Ligeramente más grueso para leer en el cristal */
+            max-width: 600px; padding: 0 15px; font-weight: 600;
         }
 
         .info-title {
@@ -336,7 +336,18 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 2px solid #fff;
         }
         .gallery-grid img:hover { transform: scale(1.03); box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 2; }
+        
+        /* Algunas fotos grandes intermedias */
         .gallery-grid img:nth-child(3n) { grid-column: span 2; height: 220px; } 
+        
+        /* AJUSTE: Foto 13 centrada y más grande */
+        .gallery-grid img:last-child { 
+            grid-column: span 2; 
+            height: 260px; 
+            object-position: center;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+            border: 3px solid #fff;
+        }
 
         /* Lightbox (Pantalla completa) */
         .lightbox {
@@ -540,18 +551,19 @@
             
             <div class="gallery-grid">
                 <!-- 13 Fotos Dinámicas -->
-                <img src="assets/8.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-1" alt="Foto 1">
-                <img src="assets/1.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-2" alt="Foto 2">
-                <img src="assets/2.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-3" alt="Foto 3">
-                <img src="assets/3.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-4" alt="Foto 4">
-                <img src="assets/4.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-1" alt="Foto 5">
-                <img src="assets/5.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-2" alt="Foto 6">
-                <img src="assets/6.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-3" alt="Foto 7">
-                <img src="assets/7.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-4" alt="Foto 8">
-                <img src="assets/12.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-1" alt="Foto 9">
-                <img src="assets/9.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-2" alt="Foto 10">
-                <img src="assets/10.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-3" alt="Foto 11">
-                <img src="assets/11.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-4" alt="Foto 12">
+                <img src="assets/1.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-1" alt="Foto 1">
+                <img src="assets/2.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-2" alt="Foto 2">
+                <img src="assets/3.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-3" alt="Foto 3">
+                <img src="assets/4.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-4" alt="Foto 4">
+                <img src="assets/5.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-1" alt="Foto 5">
+                <img src="assets/6.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-2" alt="Foto 6">
+                <img src="assets/7.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-3" alt="Foto 7">
+                <img src="assets/8.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-4" alt="Foto 8">
+                <img src="assets/9.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-1" alt="Foto 9">
+                <img src="assets/10.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-2" alt="Foto 10">
+                <img src="assets/11.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-3" alt="Foto 11">
+                <img src="assets/12.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-4" alt="Foto 12">
+                <!-- Foto 13 centrada y más grande -->
                 <img src="assets/13.jpg" onclick="openLightbox(this.src)" class="anim-element anim-zoom delay-1" alt="Foto 13">
             </div>
         </section>
